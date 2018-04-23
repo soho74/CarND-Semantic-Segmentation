@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Semantic Segmentation
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
@@ -55,3 +56,6 @@ Run the following command to run the project:
 python main.py
 ```
 **Note** If running this in Jupyter Notebook system messages, such as those regarding test status, may appear in the terminal rather than the notebook.
+=======
+# CarND-Semantic-Segmentation
+>>>>>>> origin/master
