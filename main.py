@@ -40,14 +40,33 @@ tests.test_load_vgg(load_vgg, tf)
 
 
 def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
-    conv_1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, padding='same', strides=(1, 1), kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    output1 = tf.layers.conv2d_transpose(conv_1x1, num_classes, 4, strides=(2, 2), padding='same', kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
-    conv_1x1 = tf.layers.conv2d(vgg_layer4_out, num_classes, 1, padding='same', strides=(1, 1), kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+    conv_1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, padding='same', strides=(1, 1), 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
+    output1 = tf.layers.conv2d_transpose(conv_1x1, num_classes, 4, strides=(2, 2), padding='same', 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
+    conv_1x1 = tf.layers.conv2d(vgg_layer4_out, num_classes, 1, padding='same', strides=(1, 1), 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
     output2 = tf.add(output1, conv_1x1)
-    output3 = tf.layers.conv2d_transpose(output2, num_classes, 4, strides=(2, 2), padding='same', kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
-    conv_1x1 = tf.layers.conv2d(vgg_layer3_out, num_classes, 1, padding='same', strides=(1, 1), kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+
+    output3 = tf.layers.conv2d_transpose(output2, num_classes, 4, strides=(2, 2), padding='same', 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
+    conv_1x1 = tf.layers.conv2d(vgg_layer3_out, num_classes, 1, padding='same', strides=(1, 1), 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
     output4 = tf.add(output3, conv_1x1)
-    output5 = tf.layers.conv2d_transpose(output4, num_classes, 16, strides=(8, 8), padding='same', kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
+
+    output5 = tf.layers.conv2d_transpose(output4, num_classes, 16, strides=(8, 8), padding='same', 
+        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3),
+        kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 
     return output5
 tests.test_layers(layers)
@@ -71,10 +90,16 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
              correct_label, keep_prob, learning_rate, kprob_rate, l_rate):
     sess.run(tf.global_variables_initializer())
     for i in range(epochs):
+        cnt1 = 0
         for image, label in get_batches_fn(batch_size):
-            print("Batch", i)
             # Training
-            sess.run(train_op, feed_dict={input_image: image, correct_label: label, keep_prob: kprob_rate, learning_rate: l_rate})
+            if cnt1 == 0:
+                _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image, correct_label: label, keep_prob: kprob_rate, learning_rate: l_rate})
+                print("epochs,", i, ",cnt1, ", cnt1, ",loss,", loss)
+            else:
+                sess.run(train_op, feed_dict={input_image: image, correct_label: label, keep_prob: kprob_rate, learning_rate: l_rate})
+
+            cnt1 = cnt1 + 1
 
 tests.test_train_nn(train_nn)
 
@@ -89,7 +114,7 @@ def run():
 
     helper.maybe_download_pretrained_vgg(data_dir)
     
-    epochs = 250
+    epochs = 200
     batch_size = 16
 
     for l_rate in [0.0001, 0.0004]:
@@ -123,6 +148,9 @@ def run():
                 print("Model saved in file: %s" % save_path)
 
                 helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, input_image)
+
+                # this 1 patter only
+                exit()
 
 
 if __name__ == '__main__':
