@@ -24,7 +24,9 @@ In this project, you'll label the pixels of a road in images using a Fully Convo
 1.The number of epoch and batch size
 - epochs = 200
 - batch_size = 16
+
 2.loss
+
 - ![screenshot](./loss.png)
 
 ### 3 Spec etc.
