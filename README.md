@@ -2,7 +2,7 @@
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
 
-- keep_prob = 0.8 , l_rate = 0.00004
+- keep_prob = 0.8 , l_rate = 0.00001
 
  ![screenshot](./runs/1524348744.7840972/um_000017.png)
  ![screenshot](./runs/1524348744.7840972/umm_000033.png)
@@ -22,8 +22,10 @@ In this project, you'll label the pixels of a road in images using a Fully Convo
 
 ### 2 Neural Network Training
 1.The number of epoch and batch size
-- epochs = 250
+- epochs = 200
 - batch_size = 16
+2.loss
+ ![screenshot](./loss.png)
 
 ### 3 Spec etc.
 - Ubuntu 16.04
