@@ -3,9 +3,9 @@
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
 
 - keep_prob = 0.8 , l_rate = 0.00004
-![screenshot](./runs/1524348744.7840972/um_000017.png)
 
-![screenshot](./runs/1524348744.7840972/umm_000033.png)
+ ![screenshot](./runs/1524348744.7840972/um_000017.png)
+ ![screenshot](./runs/1524348744.7840972/umm_000033.png)
 
 
 ### 1 Build the Neural Network
