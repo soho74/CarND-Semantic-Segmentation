@@ -4,6 +4,7 @@ In this project, you'll label the pixels of a road in images using a Fully Convo
 
 - keep_prob = 0.8 , l_rate = 0.00004
 ![screenshot](./runs/1524348744.7840972/um_000017.png)
+
 ![screenshot](./runs/1524348744.7840972/umm_000033.png)
 
 
@@ -54,7 +55,4 @@ Run the following command to run the project:
 ```
 python main.py
 ```
-**Note** If running this in Jupyter Notebook system messages, such as those regarding test status, may appear in the terminal rather than the notebook.
-=======
-# CarND-Semantic-Segmentation
->>>>>>> origin/master
+
